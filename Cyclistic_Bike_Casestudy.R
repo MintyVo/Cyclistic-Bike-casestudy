@@ -61,11 +61,17 @@ dec2021 <- read_csv("202112-divvy-tripdata.csv")
 str(dec2021)
 head(dec2021)
 
-jan20212 <- read_csv("202201-divvy-tripdata.csv")
+jan2022 <- read_csv("202201-divvy-tripdata.csv")
 str(jan2022)
 head(jan2022)
 
+#combine all data into one table 
 
+bike_data <- rbind(feb2021,mar2021,apr2021,ma2021,jun2021,jul2021,aug2021,sep2021,oct2021,nov2021,dec2021,jan2022)
+head(bike_data,10)
+
+#make a copy of the data to have a backup 
+bike_data1 <- bike_data
 
 
 
