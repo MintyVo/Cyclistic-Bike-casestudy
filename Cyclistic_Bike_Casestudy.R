@@ -73,8 +73,36 @@ head(bike_data,10)
 #make a copy of the data to have a backup 
 bike_data1 <- bike_data
 
+#add a date column 
+bike_data1$date <- as.Date(bike_data1$started_at)
+head(bike_data1$date)
 
+#add a month column
+bike_data1$month <- format(as.Date(bike_data1$started_at), "%b_%y") 
+head(bike_data1$month)
 
+#add a day column 
+bike_data1$day <- format(as.Date(bike_data1$date), "%d")
+head(bike_data1$day)
+
+#add a year column
+bike_data1$year <- format(as.Date(bike_data1$date), "%Y") 
+head(bike_data1$year)
+
+#add a day of week column
+bike_data1$weekday <- format(as.Date(bike_data1$date), "%A")
+head(bike_data1$weekday)
+
+#add a time started column
+bike_data1$time <- format(bike_data1$started_at, format = "%H:%M")
+head(bike_data1$time)
+
+#change format for the time column for purposes later
+bike_data1$time <- as.POSIXct(bike_data1$time, format = "%H:%M")
+head(bike_data1$time)
+
+#calculate ride length in minutes
+bike_data1$ride_length <- (as.double(difftime(bike_data1$ended_at, bike_data1$started_at))) /60  
 
 
 
