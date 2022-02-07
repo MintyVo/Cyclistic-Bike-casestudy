@@ -210,4 +210,12 @@ bike_data1 %>%
   labs(x= 'Bike Type', y='Number of Rentals', title='Bike Type Breakdown', fill = 'Type of Membership') +
   scale_y_continuous(breaks = c(500000, 1000000, 1500000), labels = c("500K", "1Mil", "1.5Mil"))
 
-
+#Looking at demand over a 24 hour day
+bike_data1 %>%     #Looking at demand over a 24 hour day
+  group_by(customer_type, time) %>% 
+  summarise(total_rides = n()) %>% 
+  ggplot(aes(x=time, y=total_rides, color = customer_type, group = customer_type)) +
+  geom_line() + scale_x_datetime(date_breaks = "1 hour",
+                                 date_labels = "%H:%M", expand = c(0,0)) +
+  theme(axis.text.x = element_text(angle = 45)) +
+  labs(title ="Demand Throughout the Day", x = "Time", y = "Total Rides")
