@@ -186,7 +186,7 @@ bike_data1 %>%
   labs(x= "Month", y= "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
   scale_y_continuous(breaks = c(100000, 200000, 300000, 400000), labels = c("100K", "200K", "300K", "400K")) + theme(axis.text.x = element_text(angle = 45))
 
-#Average length by Customer Type and Day of Week
+#Average ride length by Customer Type and Day of Week
 bike_data1 %>%   
   group_by(customer_type, weekday) %>% 
   summarise(average_ride_length = mean(ride_length)) %>% 
@@ -204,5 +204,10 @@ bike_data1 %>%
   labs (x="Month", y = "Average Ride Length(min)", title = "Average Ride Length by Customer Type and Month", 
         fill = "Type of Membership") + theme(axis.text.x = element_text(angle = 45))
 
+#looking at breakdown of bike types rented
+bike_data1 %>%  
+  ggplot(aes(x = bike_type, fill = customer_type)) + geom_bar(position = "dodge") + 
+  labs(x= 'Bike Type', y='Number of Rentals', title='Bike Type Breakdown', fill = 'Type of Membership') +
+  scale_y_continuous(breaks = c(500000, 1000000, 1500000), labels = c("500K", "1Mil", "1.5Mil"))
 
 
