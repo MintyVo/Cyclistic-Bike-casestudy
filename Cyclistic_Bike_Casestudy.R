@@ -103,6 +103,20 @@ head(bike_data1$time)
 
 #calculate ride length in minutes
 bike_data1$ride_length <- (as.double(difftime(bike_data1$ended_at, bike_data1$started_at))) /60  
+head(bike_data1$ride_length)
+
+
+#examine the data 
+str(bike_data1)
+colnames(bike_data1)
+dim(bike_data1) 
+nrow(bike_data1)
+summary(bike_data1)
+
+
+
+
+
 
 
 
