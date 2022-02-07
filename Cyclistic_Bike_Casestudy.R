@@ -195,3 +195,14 @@ bike_data1 %>%
                                        title = "Average Ride Length by Customer Type and Day of Week", 
                                        fill = "Type of Membership") 
 
+#Average ride length by customer type and month
+bike_data1 %>%  
+  group_by(customer_type, month) %>% 
+  summarise(average_ride_length = mean(ride_length)) %>% 
+  ggplot(aes(x=month, y = average_ride_length, fill = customer_type))+ 
+  geom_col(position = "dodge") +
+  labs (x="Month", y = "Average Ride Length(min)", title = "Average Ride Length by Customer Type and Month", 
+        fill = "Type of Membership") + theme(axis.text.x = element_text(angle = 45))
+
+
+
