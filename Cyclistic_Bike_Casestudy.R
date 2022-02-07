@@ -114,6 +114,26 @@ nrow(bike_data1)
 summary(bike_data1)
 
 
+#clean the data 
+
+#remove duplicates
+bike_data1 <- distinct(bike_data1)  
+
+#get rid of negative ride 
+bike_data1 <- bike_data1[!bike_data1$ride_length<1,] 
+#get rid of the ride that is longer than one day or 1440 mins
+bike_data1 <- bike_data1[!bike_data1$ride_length>1440,]
+
+#change a few column names for clarification
+bike_data1 <- rename(bike_data1, customer_type = member_casual) 
+bike_data1 <- rename(bike_data1, bike_type = rideable_type)
+
+## Filter out data we will not be using and remove missing data
+bike_data1 <- bike_data1 %>% select(bike_type, customer_type, started_at, date, month, day, year, weekday, time, ride_length)
+drop_na(bike_data1)
+
+remove_empty(bike_data1)
+remove_missing(bike_data1) 
 
 
 
