@@ -185,3 +185,13 @@ bike_data1 %>%
   ggplot(aes(x=month, y=total_rides, fill = customer_type)) + geom_col(position = "dodge") + 
   labs(x= "Month", y= "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
   scale_y_continuous(breaks = c(100000, 200000, 300000, 400000), labels = c("100K", "200K", "300K", "400K")) + theme(axis.text.x = element_text(angle = 45))
+
+#Average length by Customer Type and Day of Week
+bike_data1 %>%   
+  group_by(customer_type, weekday) %>% 
+  summarise(average_ride_length = mean(ride_length)) %>% 
+  ggplot(aes(x=weekday, y = average_ride_length, fill = customer_type))+
+  geom_col(position = "dodge") + labs (x="Day of Week", y="Average Ride Length(min)", 
+                                       title = "Average Ride Length by Customer Type and Day of Week", 
+                                       fill = "Type of Membership") 
+
