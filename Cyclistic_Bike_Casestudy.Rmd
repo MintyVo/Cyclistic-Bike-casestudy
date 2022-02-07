@@ -1,30 +1,46 @@
 ---
-title: "Cyclistic_Bike_Casestudy"
+title: "Cyclistic Bike Share Casestudy"
 author: "Minty Vo"
 date: "04/02/2022"
 output: html_document
 ---
+*Welcome to my Cyclistic Bike Share data analysis case study*
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Scenario
+Cyclistic is the bike-share company with more than 5.800 bikes and 600 docking stations all over Chicago.Lily Moreno, the director of marketing, wants to start a new marketing strategy to convert casual riders into annual members. She believes with the right campaign there is a very good chance of conversion with the company’s name recognition and access to user-friendly bike options. These user-friendly bike options include reclining bikes, hand tricycles, and cargo bikes which makes Cyclistic more inclusive to people with disabilities and riders who can’t use a standard two-wheeled bike. Lily has tasked the marketing analytics team to analyze past user data to find trends and habits of Cyclistic’s users to help create this marketing campaign.
+
+<span style="color: red;">**I will follow these steps of the data analysis process: ask, prepare, process, analyze, share, and act. **</span>
+
+## Ask 
+
+**Business task**
+The new marketing strategy requires three components: behavioral differences between annual members and casual riders, reasons why a casual rider would buy Cyclistic annual memberships, and how digital media can influence casual riders to becoming members. The marketing analytics team is tasked with using past user data to find the behavioral differences between annual members and casual riders and report their finding
+
+## Process
+**Downloading the data**
+ User data from the past 12 months, February 2021 - January 2022 has been made available. Each data set is in csv format and details every ride logged by Cyclistic customers. This data has been made publicly available via license by Motivate International Inc. and the city of Chicago available here. All user’s personal data has been scrubbed for privacy.
+ 
+**Loading packages** 
+
+I am going to install and load some R packages that will help in my analysis
+
+```{r message=FALSE, warning=FALSE}
+# install.packages("tidyverse")
+# install.packages("lubridate")
+# install.packages("dplyr")
+# install.packages("ggplot2")
+# install.packages("tidyr")
+# install.packages("here")
+# install.packages("skimr")
+# install.packages("janitor")
+
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(here)
+library(skimr)
+library(janitor)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
