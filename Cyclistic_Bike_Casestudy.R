@@ -160,6 +160,10 @@ bike_data1 %>%
 #look at ride lengths broken down by day of week and customer type
 aggregate(bike_data1$ride_length ~ bike_data1$customer_type + bike_data1$weekday, FUN = median)
 
-
+##look at total number of rides and averages based on day of week and customer type
+bike_data1 %>% 
+  group_by(customer_type, weekday) %>% 
+  summarise(total_rides = n(), avg_ride = mean(ride_length)) %>% 
+  arrange(weekday)
 
 
