@@ -166,4 +166,22 @@ bike_data1 %>%
   summarise(total_rides = n(), avg_ride = mean(ride_length)) %>% 
   arrange(weekday)
 
+#Visualization 
 
+#total rides broken down by weekday
+bike_data1 %>%    
+  group_by(customer_type, weekday) %>% 
+  summarise(number_of_rides = n() ) %>% 
+  arrange(customer_type, weekday) %>% 
+  ggplot(aes(x = weekday, y = number_of_rides, fill = customer_type)) + geom_col(position = "dodge") + 
+  labs(x= 'Day of Week', y='Total Number of Rides', title='Rides per Day of Week', fill = 'Type of Membership') +
+  scale_y_continuous(breaks = c(250000, 400000, 550000), labels = c("250K", "400K", "550K"))
+
+#total rides broken down by month
+bike_data1 %>%  
+  group_by(customer_type, month) %>%  
+  summarise(total_rides = n(),`average_duration_(mins)` = mean(ride_length)) %>% 
+  arrange(customer_type) %>% 
+  ggplot(aes(x=month, y=total_rides, fill = customer_type)) + geom_col(position = "dodge") + 
+  labs(x= "Month", y= "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
+  scale_y_continuous(breaks = c(100000, 200000, 300000, 400000), labels = c("100K", "200K", "300K", "400K")) + theme(axis.text.x = element_text(angle = 45))
