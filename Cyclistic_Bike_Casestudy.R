@@ -135,7 +135,30 @@ drop_na(bike_data1)
 remove_empty(bike_data1)
 remove_missing(bike_data1) 
 
+# order data to based on day of week and by month 
+bike_data1$weekday <- ordered(bike_data1$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", 
+                                                           "Friday", "Saturday", "Sunday"))
+bike_data1$month <- ordered(bike_data1$month, levels=c("Feb_21", "Mar_21", "Apr_21",  "May_21", "Jun_21","Jul_21", "Aug_21", "Sep_21", "Oct_21","Nov_21","Dec_21","Jan_2021"))
 
+#Analyze the data
+
+#shows the min, max, median, and average ride lengths
+summary(bike_data1$ride_length)
+
+#looks at total number of customers broken down by membership details
+table(bike_data1$customer_type)
+
+#looks at total rides for each customer type in minutes
+setNames(aggregate(ride_length ~ customer_type, bike_data1, sum), c("customer_type", "total_ride_length(mins)"))
+
+##look at rides based on customer type
+bike_data1 %>% 
+  group_by(customer_type) %>% 
+  summarise(min_length = min(ride_length), max_length = max(ride_length), 
+            median_length = median(ride_length), mean_length = mean(ride_length))
+
+#look at ride lengths broken down by day of week and customer type
+aggregate(bike_data1$ride_length ~ bike_data1$customer_type + bike_data1$weekday, FUN = median)
 
 
 
