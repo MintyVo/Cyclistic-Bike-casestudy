@@ -14,10 +14,12 @@ Cyclistic is the bike-share company with more than 5.800 bikes and 600 docking s
 ## Ask 
 
 **Business task**
+
 The new marketing strategy requires three components: behavioral differences between annual members and casual riders, reasons why a casual rider would buy Cyclistic annual memberships, and how digital media can influence casual riders to becoming members. The marketing analytics team is tasked with using past user data to find the behavioral differences between annual members and casual riders and report their finding
 
 ## Process
 **Downloading the data**
+
  User data from the past 12 months, February 2021 - January 2022 has been made available. Each data set is in csv format and details every ride logged by Cyclistic customers. This data has been made publicly available via license by Motivate International Inc. and the city of Chicago available here. All user’s personal data has been scrubbed for privacy.
  
 **Loading packages** 
@@ -44,3 +46,113 @@ library(skimr)
 library(janitor)
 ```
 
+Now I import all the dataset on RStudio and  use head(), str() to quickly review the data 
+
+```{r message=FALSE, warning=FALSE}
+setwd("/Users/minty/Developer/Cyclistic-Bike-casestudy")
+feb2021 <- read_csv("202102-divvy-tripdata.csv")
+str(feb2021)
+head(feb2021)
+
+mar2021 <- read_csv("202103-divvy-tripdata.csv")
+str(mar2021)
+head(mar2021)
+
+apr2021 <- read_csv("202104-divvy-tripdata.csv")
+str(apr2021)
+head(apr2021)
+
+ma2021 <- read_csv("202105-divvy-tripdata.csv")
+str(ma2021)
+head(ma2021)
+
+jun2021 <- read_csv("202106-divvy-tripdata.csv")
+str(jun2021)
+head(jun2021)
+
+jul2021 <- read_csv("202107-divvy-tripdata.csv")
+str(jul2021)
+head(jul2021)
+
+aug2021 <- read_csv("202108-divvy-tripdata.csv")
+str(aug2021)
+head(aug2021)
+
+sep2021 <- read_csv("202109-divvy-tripdata.csv")
+str(sep2021)
+head(sep2021)
+
+oct2021 <- read_csv("202110-divvy-tripdata.csv")
+str(oct2021)
+head(oct2021)
+
+nov2021 <- read_csv("202111-divvy-tripdata.csv")
+str(nov2021)
+head(nov2021)
+
+dec2021 <- read_csv("202112-divvy-tripdata.csv")
+str(dec2021)
+head(dec2021)
+
+jan2022 <- read_csv("202201-divvy-tripdata.csv")
+str(jan2022)
+head(jan2022)
+```
+
+Then I combine all the data into one table 
+
+```{r }
+bike_data <- rbind(feb2021,mar2021,apr2021,ma2021,jun2021,jul2021,aug2021,sep2021,oct2021,nov2021,dec2021,jan2022)
+head(bike_data,10)
+
+``` 
+
+I make a copy of the data to have a backup 
+
+```{r }
+bike_data1 <- bike_data
+``` 
+
+I add some relevant columns to help me analyze the data easier 
+```{r }
+#add a date column 
+bike_data1$date <- as.Date(bike_data1$started_at)
+head(bike_data1$date)
+
+#add a month column
+bike_data1$month <- format(as.Date(bike_data1$started_at), "%b_%y") 
+head(bike_data1$month)
+
+#add a day column 
+bike_data1$day <- format(as.Date(bike_data1$date), "%d")
+head(bike_data1$day)
+
+#add a year column
+bike_data1$year <- format(as.Date(bike_data1$date), "%Y") 
+head(bike_data1$year)
+
+#add a day of week column
+bike_data1$weekday <- format(as.Date(bike_data1$date), "%A")
+head(bike_data1$weekday)
+
+#add a time started column
+bike_data1$time <- format(bike_data1$started_at, format = "%H:%M")
+head(bike_data1$time)
+
+#change format for the time column for purposes later
+bike_data1$time <- as.POSIXct(bike_data1$time, format = "%H:%M")
+head(bike_data1$time)
+
+#calculate ride length in minutes
+bike_data1$ride_length <- (as.double(difftime(bike_data1$ended_at, bike_data1$started_at))) /60  
+head(bike_data1$ride_length)
+
+``` 
+
+```{r }
+
+``` 
+
+```{r }
+
+``` 
