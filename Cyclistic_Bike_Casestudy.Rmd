@@ -270,9 +270,18 @@ bike_data1 %>%
                                        fill = "Type of Membership") 
 ```
 
-Figure 3 display the relationship between the average ride length of each type of customer in each day of the week. The average ride length of casual riders is considerably longer than those of members and peak on Saturday and Sunday. Annual members bike a near constant length regardless of day of week.
+Figure 3 displays the relationship between the average ride length of each type of customer in each day of the week. The average ride length of casual riders is considerably longer than those of members and peak on Saturday and Sunday. Annual members bike a near constant length regardless of day of week.
 
 ```{r}
-
+bike_data1 %>%  
+  group_by(customer_type, month) %>% 
+  summarise(average_ride_length = mean(ride_length)) %>% 
+  ggplot(aes(x=month, y = average_ride_length, fill = customer_type))+ 
+  geom_col(position = "dodge") +
+  labs (x="Month", y = "Average Ride Length(min)", title = "Average Ride Length by Customer Type and Month", 
+        fill = "Type of Membership") + theme(axis.text.x = element_text(angle = 45))
 ```
 
+Figure 4 illustrates the average ride length by customer type and month. Casual riders have almost double ride length compared to member riders
+
+indicates
