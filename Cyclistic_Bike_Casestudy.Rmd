@@ -187,17 +187,68 @@ bike_data1$weekday <- ordered(bike_data1$weekday, levels=c("Monday", "Tuesday", 
 bike_data1$month <- ordered(bike_data1$month, levels=c("Feb_21", "Mar_21", "Apr_21",  "May_21", "Jun_21","Jul_21", "Aug_21", "Sep_21", "Oct_21","Nov_21","Dec_21","Jan_2021"))
 
 ``` 
+## Analyze 
 
+I use the summary() to look at min, max, median, and average ride lengths
 ```{r }
+summary(bike_data1$ride_length)
 
 ``` 
+
+I examine the number of customers based on membership types
+
 ```{r }
+table(bike_data1$customer_type)
+``` 
+
+I check the total rides for each customer type in minutes
+```{r }
+setNames(aggregate(ride_length ~ customer_type, bike_data1, sum), c("customer_type", "total_ride_length(mins)"))
 
 ``` 
-```{r }
+Then I analyze rides based on customer type
+
+```{r message=FALSE, warning=FALSE}
+bike_data1 %>% 
+  group_by(customer_type) %>% 
+  summarise(min_length = min(ride_length), max_length = max(ride_length), 
+            median_length = median(ride_length), mean_length = mean(ride_length))
+``` 
+I look at ride lengths broken down by day of week and customer type
+
+```{r message=FALSE, warning=FALSE }
+aggregate(bike_data1$ride_length ~ bike_data1$customer_type + bike_data1$weekday, FUN = median)
 
 ``` 
-```{r }
 
-``` 
+I arrange total number of rides and averages based on day of week and customer type
+
+```{r message=FALSE, warning=FALSE}
+bike_data1 %>% 
+  group_by(customer_type, weekday) %>% 
+  summarise(total_rides= n(), avg_ride = mean(ride_length)) %>% 
+  arrange(weekday)
+
+```
+
+## Share 
+
+The ggplot() function of R Studio was used to create data visualizations that depict patterns and trends found in the data frames.
+
+```{r}
+bike_data1 %>%    
+  group_by(customer_type, weekday) %>% 
+  summarise(number_of_rides = n() ) %>% 
+  arrange(customer_type, weekday) %>% 
+  ggplot(aes(x = weekday, y = number_of_rides, fill = customer_type)) + geom_col(position = "dodge") + 
+  labs(x= 'Day of Week', y='Total Number of Rides', title='Rides per Day of Week', fill = 'Type of Membership') +
+  scale_y_continuous(breaks = c(250000, 400000, 550000), labels = c("250K", "400K", "550K"))
+```
+
+Figure 1 depicts that casual riders peak on the Saturday and Sunday while members peak Monday through Friday. This indicates members mainly use the bikes for their commutes and not leisure.
+
+```{r}
+
+```
+
 
