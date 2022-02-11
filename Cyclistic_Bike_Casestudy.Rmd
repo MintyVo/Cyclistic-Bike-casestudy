@@ -248,7 +248,23 @@ bike_data1 %>%
 Figure 1 depicts that casual riders peak on the Saturday and Sunday while members peak Monday through Friday. This indicates members mainly use the bikes for their commutes and not leisure.
 
 ```{r}
+bike_data1 %>%  
+  group_by(customer_type, month) %>%  
+  summarise(total_rides = n(),`average_duration_(mins)` = mean(ride_length)) %>% 
+  arrange(customer_type) %>% 
+  ggplot(aes(x=month, y=total_rides, fill = customer_type)) + geom_col(position = "dodge") + 
+  labs(x= "Month", y= "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
+  scale_y_continuous(breaks = c(100000, 200000, 300000, 400000), labels = c("100K", "200K", "300K", "400K")) + theme(axis.text.x = element_text(angle = 45))
+```
+
+Figure 2 shows the relationship between customer types and their number of rides during the year.  The summer months bring more riders in total but casual rider usage is nearly nonexistent in the winter months. There are multiple factors which contribute to this result but annual members still use the service at a good rate in those months.
+
+
+```{r}
 
 ```
 
+```{r}
+
+```
 
