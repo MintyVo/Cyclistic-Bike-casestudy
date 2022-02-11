@@ -308,3 +308,33 @@ bike_data1 %>%
 
 Figure 6 shows the bike demand in a 24 hour span . According to the line graph, that usage by annual members peak during rush hour to indicate many use the bikes for commutes to and from work especially with the steep drop after the peak at 5pm. Casual riders are not as volatile as there is a steady increase throughout the day with a steady decrease after the peak at 5pm.
  
+## Act 
+
+### Key takeaways
+- Casual riders ride nearly 50% longer than members on average
+
+- Annual members mainly use the bikes for their commutes as their usage peaks on weekdays during rush hour
+
+- Casual riders use the bikes more for leisure based on the peak usage in summer months and weekends
+
+- Casual riders do not use the service during the winter months as much as annual members
+
+- Annual members mainly use classic bikes and rarely use docked bikes but casual riders are more open to riding all kinds of bikes
+
+### Recommendations
+
+- Run promotions for annual memberships during the winter months to boost sales and try to convert casual riders into annual members
+
+- Decrease the price of single-fare and full-day passes Monday through Friday to bolster casual ridership during the work week
+
+- Increase price of single-fare and full-day passes on Saturday and Sunday to entice customers to convert from casual ridership into annual membership
+
+### Additional data for further analysis
+
+Age and gender - This data can show the demographics of the existing customers which could be used to target others in similar groups
+
+Marital status - This data can be used for promotional use to target entire families and not just individuals
+
+Pricing of plans - This data can be used to optimize the cost benefit analysis for existing customers and potential new ones
+
+Household data - This data could be used for targeting potential customers in certain income ranges and/or neighborhoods
