@@ -284,4 +284,16 @@ bike_data1 %>%
 
 Figure 4 illustrates the average ride length by customer type and month. Casual riders have almost double ride length compared to member riders
 
-indicates
+```{r}
+bike_data1 %>%  
+  ggplot(aes(x = bike_type, fill = customer_type)) + geom_bar(position = "dodge") + 
+  labs(x= 'Bike Type', y='Number of Rentals', title='Bike Type Breakdown', fill = 'Type of Membership') +
+  scale_y_continuous(breaks = c(500000, 1000000, 1500000), labels = c("500K", "1Mil", "1.5Mil"))
+
+```
+
+Figure 5 indicates bike type break down. Regarding to the graph, both member and casual rider use classic bike the most. 
+
+```{r}
+
+```
