@@ -817,6 +817,175 @@ head(bike_data1$time)</code></pre>
 bike_data1$ride_length &lt;- (as.double(difftime(bike_data1$ended_at, bike_data1$started_at))) /60  
 head(bike_data1$ride_length)</code></pre>
 <pre><code>## [1]  6.783333 19.516667  8.866667  4.416667 15.233333  5.533333</code></pre>
+<p>Then I examine the new data frame</p>
+<pre class="r"><code>str(bike_data1)</code></pre>
+<pre><code>## spec_tbl_df [5,601,999 × 20] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ ride_id           : chr [1:5601999] &quot;89E7AA6C29227EFF&quot; &quot;0FEFDE2603568365&quot; &quot;E6159D746B2DBB91&quot; &quot;B32D3199F1C2E75B&quot; ...
+##  $ rideable_type     : chr [1:5601999] &quot;classic_bike&quot; &quot;classic_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : POSIXct[1:5601999], format: &quot;2021-02-12 16:14:56&quot; &quot;2021-02-14 17:52:38&quot; ...
+##  $ ended_at          : POSIXct[1:5601999], format: &quot;2021-02-12 16:21:43&quot; &quot;2021-02-14 18:12:09&quot; ...
+##  $ start_station_name: chr [1:5601999] &quot;Glenwood Ave &amp; Touhy Ave&quot; &quot;Glenwood Ave &amp; Touhy Ave&quot; &quot;Clark St &amp; Lake St&quot; &quot;Wood St &amp; Chicago Ave&quot; ...
+##  $ start_station_id  : chr [1:5601999] &quot;525&quot; &quot;525&quot; &quot;KA1503000012&quot; &quot;637&quot; ...
+##  $ end_station_name  : chr [1:5601999] &quot;Sheridan Rd &amp; Columbia Ave&quot; &quot;Bosworth Ave &amp; Howard St&quot; &quot;State St &amp; Randolph St&quot; &quot;Honore St &amp; Division St&quot; ...
+##  $ end_station_id    : chr [1:5601999] &quot;660&quot; &quot;16806&quot; &quot;TA1305000029&quot; &quot;TA1305000034&quot; ...
+##  $ start_lat         : num [1:5601999] 42 42 41.9 41.9 41.8 ...
+##  $ start_lng         : num [1:5601999] -87.7 -87.7 -87.6 -87.7 -87.6 ...
+##  $ end_lat           : num [1:5601999] 42 42 41.9 41.9 41.8 ...
+##  $ end_lng           : num [1:5601999] -87.7 -87.7 -87.6 -87.7 -87.6 ...
+##  $ member_casual     : chr [1:5601999] &quot;member&quot; &quot;casual&quot; &quot;member&quot; &quot;member&quot; ...
+##  $ date              : Date[1:5601999], format: &quot;2021-02-12&quot; &quot;2021-02-14&quot; ...
+##  $ month             : chr [1:5601999] &quot;Feb_21&quot; &quot;Feb_21&quot; &quot;Feb_21&quot; &quot;Feb_21&quot; ...
+##  $ day               : chr [1:5601999] &quot;12&quot; &quot;14&quot; &quot;09&quot; &quot;02&quot; ...
+##  $ year              : chr [1:5601999] &quot;2021&quot; &quot;2021&quot; &quot;2021&quot; &quot;2021&quot; ...
+##  $ weekday           : chr [1:5601999] &quot;Friday&quot; &quot;Sunday&quot; &quot;Tuesday&quot; &quot;Tuesday&quot; ...
+##  $ time              : POSIXct[1:5601999], format: &quot;2022-02-11 16:14:00&quot; &quot;2022-02-11 17:52:00&quot; ...
+##  $ ride_length       : num [1:5601999] 6.78 19.52 8.87 4.42 15.23 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   ride_id = col_character(),
+##   ..   rideable_type = col_character(),
+##   ..   started_at = col_datetime(format = &quot;&quot;),
+##   ..   ended_at = col_datetime(format = &quot;&quot;),
+##   ..   start_station_name = col_character(),
+##   ..   start_station_id = col_character(),
+##   ..   end_station_name = col_character(),
+##   ..   end_station_id = col_character(),
+##   ..   start_lat = col_double(),
+##   ..   start_lng = col_double(),
+##   ..   end_lat = col_double(),
+##   ..   end_lng = col_double(),
+##   ..   member_casual = col_character()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<pre class="r"><code>colnames(bike_data1)</code></pre>
+<pre><code>##  [1] &quot;ride_id&quot;            &quot;rideable_type&quot;      &quot;started_at&quot;        
+##  [4] &quot;ended_at&quot;           &quot;start_station_name&quot; &quot;start_station_id&quot;  
+##  [7] &quot;end_station_name&quot;   &quot;end_station_id&quot;     &quot;start_lat&quot;         
+## [10] &quot;start_lng&quot;          &quot;end_lat&quot;            &quot;end_lng&quot;           
+## [13] &quot;member_casual&quot;      &quot;date&quot;               &quot;month&quot;             
+## [16] &quot;day&quot;                &quot;year&quot;               &quot;weekday&quot;           
+## [19] &quot;time&quot;               &quot;ride_length&quot;</code></pre>
+<pre class="r"><code>dim(bike_data1) </code></pre>
+<pre><code>## [1] 5601999      20</code></pre>
+<pre class="r"><code>nrow(bike_data1)</code></pre>
+<pre><code>## [1] 5601999</code></pre>
+<pre class="r"><code>summary(bike_data1)</code></pre>
+<pre><code>##    ride_id          rideable_type        started_at                 
+##  Length:5601999     Length:5601999     Min.   :2021-02-01 00:55:44  
+##  Class :character   Class :character   1st Qu.:2021-06-11 12:40:12  
+##  Mode  :character   Mode  :character   Median :2021-08-04 22:01:30  
+##                                        Mean   :2021-08-04 20:30:49  
+##                                        3rd Qu.:2021-09-28 16:39:49  
+##                                        Max.   :2022-01-31 23:58:37  
+##                                                                     
+##     ended_at                   start_station_name start_station_id  
+##  Min.   :2021-02-01 01:22:48   Length:5601999     Length:5601999    
+##  1st Qu.:2021-06-11 13:03:36   Class :character   Class :character  
+##  Median :2021-08-04 22:23:12   Mode  :character   Mode  :character  
+##  Mean   :2021-08-04 20:52:45                                        
+##  3rd Qu.:2021-09-28 16:55:21                                        
+##  Max.   :2022-02-01 01:46:16                                        
+##                                                                     
+##  end_station_name   end_station_id       start_lat       start_lng     
+##  Length:5601999     Length:5601999     Min.   :41.64   Min.   :-87.84  
+##  Class :character   Class :character   1st Qu.:41.88   1st Qu.:-87.66  
+##  Mode  :character   Mode  :character   Median :41.90   Median :-87.64  
+##                                        Mean   :41.90   Mean   :-87.65  
+##                                        3rd Qu.:41.93   3rd Qu.:-87.63  
+##                                        Max.   :45.64   Max.   :-73.80  
+##                                                                        
+##     end_lat         end_lng       member_casual           date           
+##  Min.   :41.39   Min.   :-88.97   Length:5601999     Min.   :2021-02-01  
+##  1st Qu.:41.88   1st Qu.:-87.66   Class :character   1st Qu.:2021-06-11  
+##  Median :41.90   Median :-87.64   Mode  :character   Median :2021-08-04  
+##  Mean   :41.90   Mean   :-87.65                      Mean   :2021-08-04  
+##  3rd Qu.:41.93   3rd Qu.:-87.63                      3rd Qu.:2021-09-28  
+##  Max.   :42.17   Max.   :-87.49                      Max.   :2022-01-31  
+##  NA&#39;s   :4754    NA&#39;s   :4754                                            
+##     month               day                year             weekday         
+##  Length:5601999     Length:5601999     Length:5601999     Length:5601999    
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##       time                      ride_length      
+##  Min.   :2022-02-11 00:00:00   Min.   :  -58.03  
+##  1st Qu.:2022-02-11 11:32:00   1st Qu.:    6.72  
+##  Median :2022-02-11 15:33:00   Median :   11.95  
+##  Mean   :2022-02-11 14:43:56   Mean   :   21.93  
+##  3rd Qu.:2022-02-11 18:22:00   3rd Qu.:   21.72  
+##  Max.   :2022-02-11 23:59:00   Max.   :55944.15  
+## </code></pre>
+<p>Now I start to clean the data</p>
+<pre class="r"><code>#remove duplicates
+bike_data1 &lt;- distinct(bike_data1)  
+
+#get rid of negative ride 
+bike_data1 &lt;- bike_data1[!bike_data1$ride_length&lt;1,] 
+#get rid of the ride that is longer than one day or 1440 mins
+bike_data1 &lt;- bike_data1[!bike_data1$ride_length&gt;1440,]
+
+#change a few column names for clarification
+bike_data1 &lt;- rename(bike_data1, customer_type = member_casual) 
+bike_data1 &lt;- rename(bike_data1, bike_type = rideable_type)
+
+## Filter out data we will not be using and remove missing data
+bike_data1 &lt;- bike_data1 %&gt;% select(bike_type, customer_type, started_at, date, month, day, year, weekday, time, ride_length)
+drop_na(bike_data1)</code></pre>
+<pre><code>## # A tibble: 5,512,267 × 10
+##    bike_type     customer_type started_at          date       month  day   year 
+##    &lt;chr&gt;         &lt;chr&gt;         &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+##  1 classic_bike  member        2021-02-12 16:14:56 2021-02-12 Feb_21 12    2021 
+##  2 classic_bike  casual        2021-02-14 17:52:38 2021-02-14 Feb_21 14    2021 
+##  3 electric_bike member        2021-02-09 19:10:18 2021-02-09 Feb_21 09    2021 
+##  4 classic_bike  member        2021-02-02 17:49:41 2021-02-02 Feb_21 02    2021 
+##  5 electric_bike member        2021-02-23 15:07:23 2021-02-23 Feb_21 23    2021 
+##  6 electric_bike casual        2021-02-24 15:43:33 2021-02-24 Feb_21 24    2021 
+##  7 classic_bike  member        2021-02-11 18:33:53 2021-02-11 Feb_21 11    2021 
+##  8 classic_bike  member        2021-02-27 15:13:39 2021-02-27 Feb_21 27    2021 
+##  9 classic_bike  member        2021-02-20 08:59:42 2021-02-20 Feb_21 20    2021 
+## 10 classic_bike  member        2021-02-20 16:45:11 2021-02-20 Feb_21 20    2021 
+## # … with 5,512,257 more rows, and 3 more variables: weekday &lt;chr&gt;, time &lt;dttm&gt;,
+## #   ride_length &lt;dbl&gt;</code></pre>
+<pre class="r"><code>remove_empty(bike_data1)</code></pre>
+<pre><code>## value for &quot;which&quot; not specified, defaulting to c(&quot;rows&quot;, &quot;cols&quot;)</code></pre>
+<pre><code>## # A tibble: 5,512,267 × 10
+##    bike_type     customer_type started_at          date       month  day   year 
+##    &lt;chr&gt;         &lt;chr&gt;         &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+##  1 classic_bike  member        2021-02-12 16:14:56 2021-02-12 Feb_21 12    2021 
+##  2 classic_bike  casual        2021-02-14 17:52:38 2021-02-14 Feb_21 14    2021 
+##  3 electric_bike member        2021-02-09 19:10:18 2021-02-09 Feb_21 09    2021 
+##  4 classic_bike  member        2021-02-02 17:49:41 2021-02-02 Feb_21 02    2021 
+##  5 electric_bike member        2021-02-23 15:07:23 2021-02-23 Feb_21 23    2021 
+##  6 electric_bike casual        2021-02-24 15:43:33 2021-02-24 Feb_21 24    2021 
+##  7 classic_bike  member        2021-02-11 18:33:53 2021-02-11 Feb_21 11    2021 
+##  8 classic_bike  member        2021-02-27 15:13:39 2021-02-27 Feb_21 27    2021 
+##  9 classic_bike  member        2021-02-20 08:59:42 2021-02-20 Feb_21 20    2021 
+## 10 classic_bike  member        2021-02-20 16:45:11 2021-02-20 Feb_21 20    2021 
+## # … with 5,512,257 more rows, and 3 more variables: weekday &lt;chr&gt;, time &lt;dttm&gt;,
+## #   ride_length &lt;dbl&gt;</code></pre>
+<pre class="r"><code>remove_missing(bike_data1) </code></pre>
+<pre><code>## # A tibble: 5,512,267 × 10
+##    bike_type     customer_type started_at          date       month  day   year 
+##    &lt;chr&gt;         &lt;chr&gt;         &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
+##  1 classic_bike  member        2021-02-12 16:14:56 2021-02-12 Feb_21 12    2021 
+##  2 classic_bike  casual        2021-02-14 17:52:38 2021-02-14 Feb_21 14    2021 
+##  3 electric_bike member        2021-02-09 19:10:18 2021-02-09 Feb_21 09    2021 
+##  4 classic_bike  member        2021-02-02 17:49:41 2021-02-02 Feb_21 02    2021 
+##  5 electric_bike member        2021-02-23 15:07:23 2021-02-23 Feb_21 23    2021 
+##  6 electric_bike casual        2021-02-24 15:43:33 2021-02-24 Feb_21 24    2021 
+##  7 classic_bike  member        2021-02-11 18:33:53 2021-02-11 Feb_21 11    2021 
+##  8 classic_bike  member        2021-02-27 15:13:39 2021-02-27 Feb_21 27    2021 
+##  9 classic_bike  member        2021-02-20 08:59:42 2021-02-20 Feb_21 20    2021 
+## 10 classic_bike  member        2021-02-20 16:45:11 2021-02-20 Feb_21 20    2021 
+## # … with 5,512,257 more rows, and 3 more variables: weekday &lt;chr&gt;, time &lt;dttm&gt;,
+## #   ride_length &lt;dbl&gt;</code></pre>
+<p>I order data to based on day of week and by month</p>
+<pre class="r"><code>bike_data1$weekday &lt;- ordered(bike_data1$weekday, levels=c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, 
+                                                           &quot;Friday&quot;, &quot;Saturday&quot;, &quot;Sunday&quot;))
+bike_data1$month &lt;- ordered(bike_data1$month, levels=c(&quot;Feb_21&quot;, &quot;Mar_21&quot;, &quot;Apr_21&quot;,  &quot;May_21&quot;, &quot;Jun_21&quot;,&quot;Jul_21&quot;, &quot;Aug_21&quot;, &quot;Sep_21&quot;, &quot;Oct_21&quot;,&quot;Nov_21&quot;,&quot;Dec_21&quot;,&quot;Jan_2021&quot;))</code></pre>
 </div>
 
 
