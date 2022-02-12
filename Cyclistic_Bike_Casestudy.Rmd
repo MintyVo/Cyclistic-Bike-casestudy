@@ -1,7 +1,7 @@
 ---
 title: "Cyclistic Bike Share Casestudy"
 author: "Minty Vo"
-date: "04/02/2022"
+date: "2022/02/04"
 output: html_document
 ---
 *Welcome to my Cyclistic Bike Share data analysis case study*
@@ -48,7 +48,7 @@ library(janitor)
 
 Now I import all the dataset on RStudio and  use head(), str() to quickly review the data 
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, results='hide'}
 setwd("/Users/minty/Developer/Cyclistic-Bike-casestudy")
 feb2021 <- read_csv("202102-divvy-tripdata.csv")
 str(feb2021)
@@ -102,7 +102,7 @@ head(jan2022)
 Then I combine all the data into one table 
 
 ```{r }
-bike_data <- rbind(feb2021,mar2021,apr2021,ma2021,jun2021,jul2021,aug2021,sep2021,oct2021,nov2021,dec2021,jan2022)
+bike_data <- rbind(feb2021, mar2021, apr2021, ma2021, jun2021, jul2021, aug2021, sep2021,oct2021, nov2021, dec2021, jan2022)
 head(bike_data,10)
 
 ``` 
@@ -114,32 +114,33 @@ bike_data1 <- bike_data
 ``` 
 
 I add some relevant columns to help me analyze the data easier 
+
 ```{r }
-#add a date column 
+# Add a date column 
 bike_data1$date <- as.Date(bike_data1$started_at)
 head(bike_data1$date)
 
-#add a month column
+# Add a month column
 bike_data1$month <- format(as.Date(bike_data1$started_at), "%b_%y") 
 head(bike_data1$month)
 
-#add a day column 
+# Add a day column 
 bike_data1$day <- format(as.Date(bike_data1$date), "%d")
 head(bike_data1$day)
 
-#add a year column
+# Add a year column
 bike_data1$year <- format(as.Date(bike_data1$date), "%Y") 
 head(bike_data1$year)
 
-#add a day of week column
+# Add a day of week column
 bike_data1$weekday <- format(as.Date(bike_data1$date), "%A")
 head(bike_data1$weekday)
 
-#add a time started column
+# Add a time started column
 bike_data1$time <- format(bike_data1$started_at, format = "%H:%M")
 head(bike_data1$time)
 
-#change format for the time column for purposes later
+# Change format for the time column for purposes later
 bike_data1$time <- as.POSIXct(bike_data1$time, format = "%H:%M")
 head(bike_data1$time)
 
@@ -148,7 +149,9 @@ bike_data1$ride_length <- (as.double(difftime(bike_data1$ended_at, bike_data1$st
 head(bike_data1$ride_length)
 
 ``` 
+
 Then I examine the new data frame 
+
 ```{r }
 str(bike_data1)
 colnames(bike_data1)
@@ -158,16 +161,17 @@ summary(bike_data1)
 ``` 
 
 Now I start to clean the data 
+
 ```{r }
-#remove duplicates
+# Remove duplicates
 bike_data1 <- distinct(bike_data1)  
 
-#get rid of negative ride 
+# Get rid of negative ride 
 bike_data1 <- bike_data1[!bike_data1$ride_length<1,] 
-#get rid of the ride that is longer than one day or 1440 mins
+# Get rid of the ride that is longer than one day or 1440 mins
 bike_data1 <- bike_data1[!bike_data1$ride_length>1440,]
 
-#change a few column names for clarification
+# Change a few column names for clarification
 bike_data1 <- rename(bike_data1, customer_type = member_casual) 
 bike_data1 <- rename(bike_data1, bike_type = rideable_type)
 
@@ -181,15 +185,17 @@ remove_missing(bike_data1)
 ``` 
 
 I order data to based on day of week and by month 
+
 ```{r }
-bike_data1$weekday <- ordered(bike_data1$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", 
-                                                           "Friday", "Saturday", "Sunday"))
+bike_data1$weekday <- ordered(bike_data1$weekday, levels=c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
 bike_data1$month <- ordered(bike_data1$month, levels=c("Feb_21", "Mar_21", "Apr_21",  "May_21", "Jun_21","Jul_21", "Aug_21", "Sep_21", "Oct_21","Nov_21","Dec_21","Jan_2021"))
 
 ``` 
+
 ## Analyze 
 
 I use the summary() to look at min, max, median, and average ride lengths
+
 ```{r }
 summary(bike_data1$ride_length)
 
@@ -202,6 +208,7 @@ table(bike_data1$customer_type)
 ``` 
 
 I check the total rides for each customer type in minutes
+
 ```{r }
 setNames(aggregate(ride_length ~ customer_type, bike_data1, sum), c("customer_type", "total_ride_length(mins)"))
 
@@ -214,6 +221,7 @@ bike_data1 %>%
   summarise(min_length = min(ride_length), max_length = max(ride_length), 
             median_length = median(ride_length), mean_length = mean(ride_length))
 ``` 
+
 I look at ride lengths broken down by day of week and customer type
 
 ```{r message=FALSE, warning=FALSE }
@@ -235,82 +243,88 @@ bike_data1 %>%
 
 The ggplot() function of R Studio was used to create data visualizations that depict patterns and trends found in the data frames.
 
-```{r}
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%    
   group_by(customer_type, weekday) %>% 
   summarise(number_of_rides = n() ) %>% 
   arrange(customer_type, weekday) %>% 
   ggplot(aes(x = weekday, y = number_of_rides, fill = customer_type)) + geom_col(position = "dodge") + 
-  labs(x= 'Day of Week', y='Total Number of Rides', title='Rides per Day of Week', fill = 'Type of Membership') +
-  scale_y_continuous(breaks = c(250000, 400000, 550000), labels = c("250K", "400K", "550K"))
+  labs(x= 'Day of Week', y='Total Number of Rides', title='Rides per Day of Week', fill = 'Type of Membership') + scale_y_continuous(breaks = c(250000, 400000, 550000), labels = c("250K", "400K", "550K"))
 ```
 
-Figure 1 depicts that casual riders peak on the Saturday and Sunday while members peak Monday through Friday. This indicates members mainly use the bikes for their commutes and not leisure.
+**Figure 1** depicts that casual riders peak on the Saturday and Sunday while members peak Monday through Friday. This indicates members mainly use the bikes for their commutes and not leisure.
 
-```{r}
+
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%  
   group_by(customer_type, month) %>%  
   summarise(total_rides = n(),`average_duration_(mins)` = mean(ride_length)) %>% 
   arrange(customer_type) %>% 
-  ggplot(aes(x=month, y=total_rides, fill = customer_type)) + geom_col(position = "dodge") + 
-  labs(x= "Month", y= "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
+  ggplot(aes(x = month, y = total_rides, fill = customer_type)) + geom_col(position = "dodge") + 
+  labs(x = "Month", y = "Total Number of Rides", title = "Rides per Month", fill = "Type of Membership") + 
   scale_y_continuous(breaks = c(100000, 200000, 300000, 400000), labels = c("100K", "200K", "300K", "400K")) + theme(axis.text.x = element_text(angle = 45))
 ```
 
-Figure 2 shows the relationship between customer types and their number of rides during the year.  The summer months bring more riders in total but casual rider usage is nearly nonexistent in the winter months. There are multiple factors which contribute to this result but annual members still use the service at a good rate in those months.
+**Figure 2** shows the relationship between customer types and their number of rides during the year.  The summer months bring more riders in total but casual rider usage is nearly nonexistent in the winter months. There are multiple factors which contribute to this result but annual members still use the service at a good rate in those months.
 
 
-```{r}
+
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%   
   group_by(customer_type, weekday) %>% 
   summarise(average_ride_length = mean(ride_length)) %>% 
-  ggplot(aes(x=weekday, y = average_ride_length, fill = customer_type))+
-  geom_col(position = "dodge") + labs (x="Day of Week", y="Average Ride Length(min)", 
+  ggplot(aes(x = weekday, y = average_ride_length, fill = customer_type)) +
+  geom_col(position = "dodge") + labs (x = "Day of Week", y = "Average Ride Length(min)", 
                                        title = "Average Ride Length by Customer Type and Day of Week", 
                                        fill = "Type of Membership") 
 ```
 
-Figure 3 displays the relationship between the average ride length of each type of customer in each day of the week. The average ride length of casual riders is considerably longer than those of members and peak on Saturday and Sunday. Annual members bike a near constant length regardless of day of week.
+**Figure 3** displays the relationship between the average ride length of each type of customer in each day of the week. The average ride length of casual riders is considerably longer than those of members and peak on Saturday and Sunday. Annual members bike a near constant length regardless of day of week.
 
-```{r}
+
+
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%  
   group_by(customer_type, month) %>% 
   summarise(average_ride_length = mean(ride_length)) %>% 
-  ggplot(aes(x=month, y = average_ride_length, fill = customer_type))+ 
+  ggplot(aes(x = month, y = average_ride_length, fill = customer_type))+ 
   geom_col(position = "dodge") +
-  labs (x="Month", y = "Average Ride Length(min)", title = "Average Ride Length by Customer Type and Month", 
-        fill = "Type of Membership") + theme(axis.text.x = element_text(angle = 45))
+  labs (x ="Month", y = "Average Ride Length(min)", title = "Average Ride Length by Customer Type and Month", fill = "Type of Membership") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-Figure 4 illustrates the average ride length by customer type and month. Casual riders have almost double ride length compared to member riders
+**Figure 4** illustrates the average ride length by customer type and month. Casual riders have almost double ride length compared to member riders
 
-```{r}
+
+
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%  
   ggplot(aes(x = bike_type, fill = customer_type)) + geom_bar(position = "dodge") + 
-  labs(x= 'Bike Type', y='Number of Rentals', title='Bike Type Breakdown', fill = 'Type of Membership') +
-  scale_y_continuous(breaks = c(500000, 1000000, 1500000), labels = c("500K", "1Mil", "1.5Mil"))
+  labs(x = 'Bike Type', y = 'Number of Rentals', title ='Bike Type Breakdown', fill = 'Type of Membership') + scale_y_continuous(breaks = c(500000, 1000000, 1500000), labels = c("500K", "1Mil", "1.5Mil"))
 
 ```
 
-Figure 5 indicates bike type break down. Regarding to the graph, both member and casual rider use classic bike the most. 
+**Figure 5** indicates bike type break down. Regarding to the graph, both member and casual rider use classic bike the most. 
 
-```{r}
+
+
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 bike_data1 %>%     
   group_by(customer_type, time) %>% 
   summarise(total_rides = n()) %>% 
-  ggplot(aes(x=time, y=total_rides, color = customer_type, group = customer_type)) +
+  ggplot(aes(x = time, y = total_rides, color = customer_type, group = customer_type)) +
   geom_line() + scale_x_datetime(date_breaks = "1 hour",
                                  date_labels = "%H:%M", expand = c(0,0)) +
   theme(axis.text.x = element_text(angle = 45)) +
-  labs(title ="Demand Throughout the Day", x = "Time", y = "Total Rides")
+  labs(title = "Demand Throughout the Day", x = "Time", y = "Total Rides")
 
 ```
 
-Figure 6 shows the bike demand in a 24 hour span . According to the line graph, that usage by annual members peak during rush hour to indicate many use the bikes for commutes to and from work especially with the steep drop after the peak at 5pm. Casual riders are not as volatile as there is a steady increase throughout the day with a steady decrease after the peak at 5pm.
+**Figure 6** shows the bike demand in a 24 hour span . According to the line graph, that usage by annual members peak during rush hour to indicate many use the bikes for commutes to and from work especially with the steep drop after the peak at 5pm. Casual riders are not as volatile as there is a steady increase throughout the day with a steady decrease after the peak at 5pm.
  
 ## Act 
 
 ### Key takeaways
+
 - Casual riders ride nearly 50% longer than members on average
 
 - Annual members mainly use the bikes for their commutes as their usage peaks on weekdays during rush hour
@@ -331,10 +345,10 @@ Figure 6 shows the bike demand in a 24 hour span . According to the line graph, 
 
 ### Additional data for further analysis
 
-Age and gender - This data can show the demographics of the existing customers which could be used to target others in similar groups
+1. Age and gender - This data can show the demographics of the existing customers which could be used to target others in similar groups
 
-Marital status - This data can be used for promotional use to target entire families and not just individuals
+2. Marital status - This data can be used for promotional use to target entire families and not just individuals
 
-Pricing of plans - This data can be used to optimize the cost benefit analysis for existing customers and potential new ones
+3. Pricing of plans - This data can be used to optimize the cost benefit analysis for existing customers and potential new ones
 
-Household data - This data could be used for targeting potential customers in certain income ranges and/or neighborhoods
+4. Household data - This data could be used for targeting potential customers in certain income ranges and/or neighborhoods
